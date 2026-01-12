@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Ghana AI Lab</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .admin-tab {
+            padding: 15px 30px;
+            background: var(--medium-gray);
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .admin-tab.active {
+            background: var(--gold);
+            color: var(--black);
+        }
+        
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+        }
+        
+        .content-item {
+            background: var(--dark-gray);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        /* Upload area styles */
+        .upload-area {
+            border: 2px dashed var(--gold);
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(212, 175, 55, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .upload-area:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        
+        .password-recovery {
+            background: var(--dark-gray);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .password-recovery h4 {
+            margin-bottom: 15px;
+            color: var(--gold);
+        }
+        
+        .whatsapp-btn, .email-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+        
+        .email-btn {
+            background: #EA4335;
+        }
+        
+        .email-btn:hover {
+            background: #D14836;
+        }
+        
+        .password-display {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    Ghana <span>AI Lab</span>
+                    <div class="logo-subtitle">Admin Panel</div>
+                </a>
+                
+                <nav class="main-nav">
+                    <a href="index.html">← Back to Website</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero" style="padding: 100px 0;">
+            <div class="container">
+                <h1>Admin Panel</h1>
+                <p>Manage your website content</p>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 60px 0;">
+            <div id="loginSection" class="admin-content">
+                <div style="background: var(--dark-gray); padding: 40px; border-radius: 15px; text-align: center;">
+                    <h2 style="margin-bottom: 30px;">Admin Login</h2>
+                    <div class="form-group">
+                        <input type="password" id="adminPassword" class="form-control" placeholder="Enter admin password">
+                    </div>
+                    <button class="btn" onclick="login()" style="width: 100%; margin-bottom: 20px;">
+                        <i class="fas fa-lock"></i> Login
+                    </button>
+                    
+                    <div id="passwordDisplay" class="password-display"></div>
+                    
+                    <div class="password-recovery">
+                        <h4>Need Password?</h4>
+                        <p style="color: var(--light-gray); margin-bottom: 20px;">
+                            The admin password has been sent to the admin's contact. If you haven't received it:
+                        </p>
+                        <div>
+                            <a href="#" onclick="requestPassword('whatsapp')" class="whatsapp-btn">
+                                <i class="fab fa-whatsapp"></i> Request via WhatsApp
+                            </a>
+                            <a href="#" onclick="requestPassword('email')" class="email-btn">
+                                <i class="fas fa-envelope"></i> Request via Email
+                            </a>
+                        </div>
+                        <p style="color: var(--light-gray); font-size: 12px; margin-top: 20px;">
+                            Password will be sent to: +233 54 657 5887 / kennethtutudonkor10@gmail.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="adminPanel" class="admin-content" style="display: none;">
+                <!-- Admin Tabs -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" onclick="showAdminTab('blog')">Blog Posts</button>
+                    <button class="admin-tab" onclick="showAdminTab('images')">Manage Images</button>
+                    <button class="admin-tab" onclick="showAdminTab('backup')">Backup/Restore</button>
+                    <button class="admin-tab" onclick="showAdminTab('settings')">Settings</button>
+                </div>
+                
+                <!-- Blog Tab -->
+                <div id="blogTab" class="tab-pane active">
+                    <h3 style="margin-bottom: 20px;">Add New Blog Post</h3>
+                    
+                    <div class="form-group">
+                        <input type="text" id="postTitle" class="form-control" placeholder="Post Title">
+                    </div>
+                    
+                    <div class="form-group">
+                        <select id="postCategory" class="form-control">
+                            <option value="">Select Category</option>
+                            <option value="technology">Technology</option>
+                            <option value="education">Education</option>
+                            <option value="announcements">Announcements</option>
+                            <option value="projects">Projects</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="postContent" class="form-control" placeholder="Write your blog post here..." rows="10"></textarea>
+                    </div>
+                    
+                    <button class="btn" onclick="savePost()" style="margin-bottom: 40px;">
+                        <i class="fas fa-save"></i> Save Post
+                    </button>
+                    
+                    <h3 style="margin-bottom: 20px;">Manage Existing Posts</h3>
+                    <div id="postsList">
+                        <!-- Posts will be listed here -->
+                    </div>
+                </div>
+                
+                <!-- Images Tab -->
+                <div id="imagesTab" class="tab-pane">
+                    <h3 style="margin-bottom: 20px;">Upload New Images</h3>
+                    
+                    <div class="upload-area" onclick="document.getElementById('adminImageUpload').click()">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p>Click to upload images or drag & drop</p>
+                        <small style="color: var(--light-gray);">Supports JPG, PNG, GIF, WebP (Max 5MB each)</small>
+                    </div>
+                    <input type="file" id="adminImageUpload" accept="image/*" multiple style="display: none;">
+                    
+                    <div id="uploadProgress" style="display: none; margin-bottom: 20px;">
+                        <div style="background: var(--medium-gray); height: 10px; border-radius: 5px; overflow: hidden;">
+                            <div id="progressBar" style="background: var(--gold); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <p id="uploadStatus" style="text-align: center; margin-top: 10px; color: var(--light-gray);"></p>
+                    </div>
+                    
+                    <h3 style="margin-bottom: 20px;">Existing Images (${uploadedImages ? uploadedImages.length : 0})</h3>
+                    <div id="adminImagesList">
+                        <!-- Images will be listed here -->
+                    </div>
+                </div>
+                
+                <!-- Backup Tab -->
+                <div id="backupTab" class="tab-pane">
+                    <h3 style="margin-bottom: 30px;">Data Management</h3>
+                    
+                    <div style="display: grid; gap: 20px;">
+                        <div style="background: var(--dark-gray); padding: 30px; border-radius: 10px; text-align: center;">
+                            <h4 style="margin-bottom: 15px;">Export Data</h4>
+                            <p style="color: var(--light-gray); margin-bottom: 20px;">Download a backup of all your website data</p>
+                            <button class="btn" onclick="exportData()">
+                                <i class="fas fa-download"></i> Export Backup
+                            </button>
+                        </div>
+                        
+                        <div style="background: var(--dark-gray); padding: 30px; border-radius: 10px; text-align: center;">
+                            <h4 style="margin-bottom: 15px;">Import Data</h4>
+                            <p style="color: var(--light-gray); margin-bottom: 20px;">Restore from a previous backup</p>
+                            <input type="file" id="importFile" accept=".json" style="display: none;">
+                            <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">
+                                <i class="fas fa-upload"></i> Import Backup
+                            </button>
+                        </div>
+                        
+                        <div style="background: var(--dark-gray); padding: 30px; border-radius: 10px; text-align: center;">
+                            <h4 style="margin-bottom: 15px;">Reset Data</h4>
+                            <p style="color: var(--light-gray); margin-bottom: 20px;">Clear all blog posts and images</p>
+                            <button class="btn btn-danger" onclick="resetData()">
+                                <i class="fas fa-trash"></i> Reset All Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Tab -->
+                <div id="settingsTab" class="tab-pane">
+                    <h3 style="margin-bottom: 30px;">Admin Settings</h3>
+                    
+                    <div style="background: var(--dark-gray); padding: 30px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 20px;">Change Password</h4>
+                        <div class="form-group">
+                            <input type="password" id="currentPassword" class="form-control" placeholder="Current Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="newPassword" class="form-control" placeholder="New Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm New Password">
+                        </div>
+                        <button class="btn" onclick="changePassword()">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                    </div>
+                    
+                    <div style="background: var(--dark-gray); padding: 30px; border-radius: 10px;">
+                        <h4 style="margin-bottom: 20px;">System Information</h4>
+                        <div style="color: var(--light-gray);">
+                            <p>Blog Posts: <span id="postCount">0</span></p>
+                            <p>Images: <span id="imageCount">0</span></p>
+                            <p>Last Backup: <span id="lastBackup">Never</span></p>
+                            <p>Storage Used: <span id="storageUsed">0 KB</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2023 Ghana AI Lab. Admin Panel - Logged in as: <span id="adminStatus">Not logged in</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Global variables
+        let blogPosts = JSON.parse(localStorage.getItem('ghanaai_blog')) || [];
+        let uploadedImages = JSON.parse(localStorage.getItem('ghanaai_images')) || [];
+        let adminPassword = localStorage.getItem('ghanaai_admin_password');
+        
+        // Generate secure password if none exists
+        if (!adminPassword) {
+            adminPassword = generateSecurePassword();
+            localStorage.setItem('ghanaai_admin_password', adminPassword);
+            localStorage.setItem('ghanaai_password_generated', 'true');
+            
+            // Show password to admin (should be removed after first use)
+            setTimeout(() => {
+                showPasswordToAdmin();
+            }, 1000);
+        }
+        
+        // Admin functions
+        function login() {
+            const enteredPassword = document.getElementById('adminPassword').value;
+            
+            if (enteredPassword === adminPassword) {
+                localStorage.setItem('isAdmin', 'true');
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminStatus').textContent = 'Admin';
+                document.getElementById('adminStatus').style.color = 'var(--gold)';
+                loadAdminData();
+                updateSystemInfo();
+            } else {
+                alert('Wrong password!');
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminPassword').focus();
+            }
+        }
+        
+        function generateSecurePassword() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+            let password = '';
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+        
+        function showPasswordToAdmin() {
+            const passwordDisplay = document.getElementById('passwordDisplay');
+            passwordDisplay.textContent = `Generated Password: ${adminPassword}`;
+            passwordDisplay.style.display = 'block';
+            
+            // Create WhatsApp and Email links
+            const whatsappMsg = encodeURIComponent(`Ghana AI Lab Admin Password: ${adminPassword}\n\nPlease save this password securely. Do not share it.\n\nWebsite: ${window.location.origin}`);
+            const emailMsg = encodeURIComponent(`Ghana AI Lab Admin Password\n\nYour admin password is: ${adminPassword}\n\nPlease save this password securely. Do not share it.\n\nWebsite: ${window.location.origin}`);
+            const emailSubject = encodeURIComponent('Ghana AI Lab Admin Password');
+            
+            // Update the buttons with actual links
+            document.querySelector('.whatsapp-btn').href = `https://wa.me/233546575887?text=${whatsappMsg}`;
+            document.querySelector('.email-btn').href = `mailto:kennethtutudonkor10@gmail.com?subject=${emailSubject}&body=${emailMsg}`;
+        }
+        
+        function requestPassword(method) {
+            if (method === 'whatsapp') {
+                const message = encodeURIComponent('Hello, I need the Ghana AI Lab admin password.');
+                window.open(`https://wa.me/233546575887?text=${message}`, '_blank');
+            } else if (method === 'email') {
+                const subject = encodeURIComponent('Admin Password Request');
+                const body = encodeURIComponent('Hello,\n\nI need access to the Ghana AI Lab admin panel. Please send me the password.\n\nThank you.');
+                window.location.href = `mailto:kennethtutudonkor10@gmail.com?subject=${subject}&body=${body}`;
+            }
+            return false;
+        }
+        
+        function showAdminTab(tabName) {
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'settings') {
+                updateSystemInfo();
+            }
+        }
+        
+        function loadAdminData() {
+            displayAdminPosts();
+            displayAdminImages();
+        }
+        
+        // Blog Functions
+        function savePost() {
+            const title = document.getElementById('postTitle').value.trim();
+            const category = document.getElementById('postCategory').value;
+            const content = document.getElementById('postContent').value.trim();
+            
+            if (!title || !category || !content) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const post = {
+                id: Date.now(),
+                title: title,
+                category: category,
+                content: content,
+                date: new Date().toISOString(),
+                author: 'Admin'
+            };
+            
+            blogPosts.push(post);
+            localStorage.setItem('ghanaai_blog', JSON.stringify(blogPosts));
+            
+            // Clear form
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postCategory').value = '';
+            document.getElementById('postContent').value = '';
+            
+            displayAdminPosts();
+            alert('Blog post saved successfully!');
+        }
+        
+        function displayAdminPosts() {
+            const container = document.getElementById('postsList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (blogPosts.length === 0) {
+                container.innerHTML = '<p style="color: var(--light-gray); text-align: center; padding: 40px;">No blog posts yet.</p>';
+                return;
+            }
+            
+            blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            blogPosts.forEach((post, index) => {
+                const postHTML = `
+                    <div class="content-item">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
+                            <div style="flex: 1;">
+                                <h4 style="margin-bottom: 5px;">${post.title}</h4>
+                                <p style="color: var(--light-gray); font-size: 14px;">
+                                    ${post.category} • ${formatDate(post.date)} • ${post.content.substring(0, 80)}...
+                                </p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="editPost(${post.id})" class="btn" style="padding: 8px 15px; font-size: 14px;">
+                                    Edit
+                                </button>
+                                <button onclick="deletePost(${post.id})" class="btn btn-danger" style="padding: 8px 15px; font-size: 14px;">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += postHTML;
+            });
+        }
+        
+        function editPost(id) {
+            const post = blogPosts.find(p => p.id === id);
+            if (!post) return;
+            
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postCategory').value = post.category;
+            document.getElementById('postContent').value = post.content;
+            
+            const saveBtn = document.querySelector('button[onclick="savePost()"]');
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Update Post';
+            saveBtn.setAttribute('onclick', `updatePost(${id})`);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function updatePost(id) {
+            const title = document.getElementById('postTitle').value.trim();
+            const category = document.getElementById('postCategory').value;
+            const content = document.getElementById('postContent').value.trim();
+            
+            if (!title || !category || !content) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const index = blogPosts.findIndex(p => p.id === id);
+            if (index === -1) return;
+            
+            blogPosts[index] = {
+                ...blogPosts[index],
+                title: title,
+                category: category,
+                content: content,
+                date: new Date().toISOString()
+            };
+            
+            localStorage.setItem('ghanaai_blog', JSON.stringify(blogPosts));
+            
+            // Reset form
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postCategory').value = '';
+            document.getElementById('postContent').value = '';
+            
+            const saveBtn = document.querySelector('button[onclick^="updatePost"]');
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Post';
+            saveBtn.setAttribute('onclick', 'savePost()');
+            
+            displayAdminPosts();
+            alert('Post updated successfully!');
+        }
+        
+        function deletePost(id) {
+            if (!confirm('Are you sure you want to delete this post?')) return;
+            
+            blogPosts = blogPosts.filter(p => p.id !== id);
+            localStorage.setItem('ghanaai_blog', JSON.stringify(blogPosts));
+            
+            displayAdminPosts();
+            alert('Post deleted successfully!');
+        }
+        
+        // Image Functions
+        function displayAdminImages() {
+            const container = document.getElementById('adminImagesList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (uploadedImages.length === 0) {
+                container.innerHTML = '<p style="color: var(--light-gray); text-align: center; padding: 40px;">No images uploaded yet.</p>';
+                return;
+            }
+            
+            uploadedImages.forEach((image, index) => {
+                const imageHTML = `
+                    <div class="content-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <img src="${image.dataUrl}" alt="${image.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px; border: 1px solid var(--medium-gray);">
+                                <div>
+                                    <div style="font-weight: bold; word-break: break-all; max-width: 300px;">${image.name}</div>
+                                    <div style="color: var(--light-gray); font-size: 12px;">
+                                        ${(image.size / 1024).toFixed(2)} KB • 
+                                        ${new Date(image.uploaded).toLocaleDateString()} •
+                                        ${image.type.split('/')[1].toUpperCase()}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="copyImageUrl(${index})" class="btn" style="padding: 8px 15px; font-size: 14px;">
+                                    Copy URL
+                                </button>
+                                <button onclick="deleteImage(${index})" class="btn btn-danger" style="padding: 8px 15px; font-size: 14px;">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += imageHTML;
+            });
+        }
+        
+        // Setup file upload
+        document.getElementById('adminImageUpload').addEventListener('change', handleImageUpload);
+        
+        function handleImageUpload(e) {
+            const files = e.target.files;
+            if (!files || files.length === 0) return;
+            
+            const progressDiv = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('progressBar');
+            const uploadStatus = document.getElementById('uploadStatus');
+            
+            progressDiv.style.display = 'block';
+            progressBar.style.width = '0%';
+            uploadStatus.textContent = 'Preparing upload...';
+            
+            let processed = 0;
+            const total = files.length;
+            
+            Array.from(files).forEach((file, index) => {
+                // Validate file type and size
+                if (!file.type.startsWith('image/')) {
+                    alert(`File "${file.name}" is not an image. Skipping.`);
+                    processed++;
+                    updateProgress();
+                    return;
+                }
+                
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    alert(`File "${file.name}" is too large (max 5MB). Skipping.`);
+                    processed++;
+                    updateProgress();
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const imageData = {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        dataUrl: e.target.result,
+                        uploaded: new Date().toISOString()
+                    };
+                    
+                    uploadedImages.push(imageData);
+                    localStorage.setItem('ghanaai_images', JSON.stringify(uploadedImages));
+                    
+                    processed++;
+                    updateProgress();
+                    
+                    if (processed === total) {
+                        setTimeout(() => {
+                            displayAdminImages();
+                            alert(`Successfully uploaded ${total} image(s)!`);
+                            progressDiv.style.display = 'none';
+                        }, 500);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    alert(`Error reading file "${file.name}". Skipping.`);
+                    processed++;
+                    updateProgress();
+                };
+                
+                reader.readAsDataURL(file);
+            });
+            
+            function updateProgress() {
+                const percent = Math.round((processed / total) * 100);
+                progressBar.style.width = percent + '%';
+                uploadStatus.textContent = `Uploading... ${processed}/${total} (${percent}%)`;
+            }
+            
+            // Clear file input
+            e.target.value = '';
+        }
+        
+        function deleteImage(index) {
+            if (!confirm('Are you sure you want to delete this image?')) return;
+            
+            uploadedImages.splice(index, 1);
+            localStorage.setItem('ghanaai_images', JSON.stringify(uploadedImages));
+            
+            displayAdminImages();
+            alert('Image deleted successfully!');
+        }
+        
+        function copyImageUrl(index) {
+            const image = uploadedImages[index];
+            navigator.clipboard.writeText(image.dataUrl)
+                .then(() => alert('Image URL copied to clipboard!'))
+                .catch(() => alert('Failed to copy URL'));
+        }
+        
+        // Backup/Restore Functions
+        function exportData() {
+            const data = {
+                blogPosts: blogPosts,
+                images: uploadedImages,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ghanaai-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Store last backup date
+            localStorage.setItem('ghanaai_last_backup', new Date().toISOString());
+            updateSystemInfo();
+            
+            alert('Backup exported successfully!');
+        }
+        
+        // Setup import
+        document.getElementById('importFile').addEventListener('change', handleImport);
+        
+        function handleImport(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (!confirm('This will replace all current data. Are you sure?')) {
+                        e.target.value = '';
+                        return;
+                    }
+                    
+                    if (data.blogPosts) {
+                        blogPosts = data.blogPosts;
+                        localStorage.setItem('ghanaai_blog', JSON.stringify(blogPosts));
+                    }
+                    
+                    if (data.images) {
+                        uploadedImages = data.images;
+                        localStorage.setItem('ghanaai_images', JSON.stringify(uploadedImages));
+                    }
+                    
+                    displayAdminPosts();
+                    displayAdminImages();
+                    updateSystemInfo();
+                    
+                    alert('Data imported successfully!');
+                } catch (error) {
+                    alert('Error: Invalid backup file format');
+                    console.error(error);
+                }
+                
+                e.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        function resetData() {
+            if (!confirm('⚠️ DANGER: Are you absolutely sure you want to reset ALL data? This cannot be undone!')) return;
+            
+            const confirmation = prompt('Type "RESET" to confirm:');
+            if (confirmation !== 'RESET') {
+                alert('Reset cancelled.');
+                return;
+            }
+            
+            localStorage.removeItem('ghanaai_blog');
+            localStorage.removeItem('ghanaai_images');
+            blogPosts = [];
+            uploadedImages = [];
+            
+            displayAdminPosts();
+            displayAdminImages();
+            updateSystemInfo();
+            
+            alert('All data has been reset.');
+        }
+        
+        // Settings Functions
+        function changePassword() {
+            const current = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            
+            if (current !== adminPassword) {
+                alert('Current password is incorrect!');
+                return;
+            }
+            
+            if (newPass.length < 6) {
+                alert('New password must be at least 6 characters');
+                return;
+            }
+            
+            if (newPass !== confirmPass) {
+                alert('New passwords do not match!');
+                return;
+            }
+            
+            adminPassword = newPass;
+            localStorage.setItem('ghanaai_admin_password', newPass);
+            
+            // Clear form
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            alert('Password changed successfully!');
+        }
+        
+        function updateSystemInfo() {
+            document.getElementById('postCount').textContent = blogPosts.length;
+            document.getElementById('imageCount').textContent = uploadedImages.length;
+            
+            const lastBackup = localStorage.getItem('ghanaai_last_backup');
+            document.getElementById('lastBackup').textContent = lastBackup 
+                ? new Date(lastBackup).toLocaleString()
+                : 'Never';
+            
+            // Calculate storage used
+            const blogSize = JSON.stringify(blogPosts).length;
+            const imageSize = uploadedImages.reduce((total, img) => total + img.dataUrl.length, 0);
+            const totalSize = blogSize + imageSize;
+            
+            document.getElementById('storageUsed').textContent = 
+                totalSize > 1024 * 1024 
+                    ? (totalSize / 1024 / 1024).toFixed(2) + ' MB'
+                    : (totalSize / 1024).toFixed(2) + ' KB';
+        }
+        
+        // Helper function
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        
+        // Check if already logged in
+        if (localStorage.getItem('isAdmin') === 'true') {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('adminStatus').textContent = 'Admin';
+            document.getElementById('adminStatus').style.color = 'var(--gold)';
+            loadAdminData();
+        } else {
+            document.getElementById('adminStatus').textContent = 'Not logged in';
+        }
+        
+        // Expose functions to global scope
+        window.savePost = savePost;
+        window.editPost = editPost;
+        window.deletePost = deletePost;
+        window.deleteImage = deleteImage;
+        window.exportData = exportData;
+        window.importData = () => document.getElementById('importFile').click();
+        window.changePassword = changePassword;
+        window.resetData = resetData;
+        window.copyImageUrl = copyImageUrl;
+    </script>
+</body>
+</html>
