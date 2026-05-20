@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Project Y2K - A modern, responsive website">
+  <meta name="theme-color" content="#007bff">
+  
+  <title>Project Y2K - Modern Website</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-brand">Y2K</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <h1>Welcome to Project Y2K</h1>
+      <p>A modern, responsive website built with vanilla HTML, CSS, and JavaScript</p>
+      <a href="#features" class="btn btn-primary">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <div class="container">
+      <h2 class="text-center mb-5">✨ Key Features</h2>
+      <div class="grid grid-3">
+        <div class="card fade-in">
+          <div class="card-body">
+            <h3>📱 Responsive Design</h3>
+            <p>Perfectly optimized for all devices - desktop, tablet, and mobile. Your content looks great everywhere.</p>
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <div class="card-body">
+            <h3>⚡ Fast Performance</h3>
+            <p>Optimized code and assets ensure lightning-fast load times and smooth user experience.</p>
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <div class="card-body">
+            <h3>♿ Accessible</h3>
+            <p>Built with WCAG 2.1 Level AA compliance. Inclusive design for all users and devices.</p>
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <div class="card-body">
+            <h3>🎨 Modern UI</h3>
+            <p>Clean, contemporary design with smooth animations and intuitive interactions.</p>
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <div class="card-body">
+            <h3>🔍 SEO Friendly</h3>
+            <p>Semantic HTML and proper structure ensure excellent search engine optimization.</p>
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <div class="card-body">
+            <h3>🚀 Easy to Extend</h3>
+            <p>Well-organized code and utility functions make it simple to add new features.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" style="background-color: #f8f9fa;">
+    <div class="container">
+      <h2 class="text-center mb-5">About Project Y2K</h2>
+      <div class="grid grid-2">
+        <div>
+          <h3>Why Choose This Template?</h3>
+          <p>Project Y2K is built for modern web development. It provides a solid foundation with best practices in:</p>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>✓ Semantic HTML5 markup</li>
+            <li>✓ CSS Grid and Flexbox layouts</li>
+            <li>✓ Vanilla JavaScript utilities</li>
+            <li>✓ Mobile-first responsive design</li>
+            <li>✓ Performance optimization</li>
+            <li>✓ Accessibility standards</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Perfect For</h3>
+          <ul style="list-style: none; padding-left: 0;">
+            <li>💼 Business websites</li>
+            <li>💡 Portfolio sites</li>
+            <li>📰 Blogs and publications</li>
+            <li>🛍️ Landing pages</li>
+            <li>📱 Web applications</li>
+            <li>🎨 Creative projects</li>
+          </ul>
+          <p style="margin-top: 2rem;">
+            <a href="https://github.com/kennethtutudonkor10-bit/pro-ject-y2k" class="btn btn-outline">View on GitHub</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" style="background-color: #007bff; color: white;">
+    <div class="container" style="max-width: 600px;">
+      <h2 class="text-center" style="color: white;">Get In Touch</h2>
+      <form id="contactForm" class="mt-4">
+        <div class="form-group">
+          <label for="name" style="color: white;">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email" style="color: white;">Email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message" style="color: white;">Message</label>
+          <textarea id="message" name="message" placeholder="Your message..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn" style="background-color: white; color: #007bff; width: 100%; font-weight: 600;">Send Message</button>
+      </form>
+
+      <div id="formMessage" style="margin-top: 1rem; text-align: center; display: none;"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background-color: #212529; color: white; text-align: center; padding: 2rem;">
+    <div class="container">
+      <p>&copy; 2026 Project Y2K. Built with <span style="color: #ff6b6b;">❤</span> for the web.</p>
+      <p style="margin-top: 1rem; color: #adb5bd;">
+        <a href="#" style="color: #adb5bd; margin: 0 1rem;">Privacy</a>
+        <a href="#" style="color: #adb5bd; margin: 0 1rem;">Terms</a>
+        <a href="#" style="color: #adb5bd; margin: 0 1rem;">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/helpers.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
