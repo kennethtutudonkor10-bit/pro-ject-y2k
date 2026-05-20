@@ -1,0 +1,217 @@
+/* ===================== */
+/* Responsive Design */
+/* ===================== */
+
+/* Tablets (768px and up) */
+@media (max-width: 768px) {
+  :root {
+    --font-size-3xl: 1.5rem;
+    --font-size-2xl: 1.25rem;
+    --spacing-xl: 2rem;
+  }
+
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  nav {
+    padding: var(--spacing-md);
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .nav-brand {
+    font-size: var(--font-size-lg);
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero {
+    padding: var(--spacing-lg);
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .flex {
+    flex-direction: column;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  :root {
+    --font-size-base: 0.9375rem;
+    --spacing-lg: 1.5rem;
+    --spacing-md: 1rem;
+  }
+
+  body {
+    font-size: var(--font-size-base);
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.1rem; }
+
+  nav {
+    padding: var(--spacing-sm);
+  }
+
+  .btn {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero p {
+    font-size: var(--font-size-base);
+  }
+
+  table {
+    font-size: 0.875rem;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Large screens (1400px and up) */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+}
+
+/* Extra large screens (1920px and up) */
+@media (min-width: 1920px) {
+  :root {
+    --spacing-xl: 4rem;
+    --font-size-3xl: 2.5rem;
+  }
+}
+
+/* ===================== */
+/* Dark Mode */
+/* ===================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #f8f9fa;
+    --text-secondary: #adb5bd;
+    --dark-bg: #1a1a1a;
+    --light-bg: #2d2d2d;
+    --border-color: #404040;
+  }
+
+  body {
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+  }
+
+  .card {
+    background-color: #2d2d2d;
+    border-color: var(--border-color);
+  }
+
+  .card-header,
+  .card-footer {
+    background-color: #3d3d3d;
+  }
+
+  input,
+  textarea,
+  select {
+    background-color: #2d2d2d;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+}
+
+/* ===================== */
+/* Reduced Motion */
+/* ===================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ===================== */
+/* Print Styles */
+/* ===================== */
+@media print {
+  nav,
+  .no-print {
+    display: none;
+  }
+
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+}
+
+/* ===================== */
+/* Touch Devices */
+/* ===================== */
+@media (hover: none) {
+  .btn:active {
+    transform: translateY(-1px);
+  }
+
+  .card:active {
+    transform: translateY(-2px);
+  }
+
+  a:active {
+    opacity: 0.8;
+  }
+}
+
+/* ===================== */
+/* Landscape Orientation */
+/* ===================== */
+@media (orientation: landscape) and (max-height: 500px) {
+  nav {
+    padding: var(--spacing-sm);
+  }
+
+  section {
+    padding: var(--spacing-md) 0;
+  }
+}
